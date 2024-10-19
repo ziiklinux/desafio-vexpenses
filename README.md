@@ -59,7 +59,7 @@ O arquio main.tf segue a seguinte ordem para criar os recursos:
 
 Somente a porta 22 estava aberta para entrada, e como foi pedido o uso do nginx tive que abrir a porta 80 e 443 tanto pra saída quanto para entrada.
 
-Limitei o acesso SSH a IPs especificos, pois é um risco bindar a porta ssh com toda a Internet.
+Limitei o acesso SSH a IPs especificos, pois é um risco bindar a porta SSH com toda a Internet.
 
 Todas as portas estavam abertas para saída. A fim de corrigir esta vunerabilidade eu apenas permiti saída nas portas 443,80,22 e 53.
 
