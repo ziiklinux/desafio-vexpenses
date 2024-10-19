@@ -75,7 +75,7 @@ Adicionei um ingress para permitir acesso HTTP para o nginx.
 
 Adicionei um ingress para permitir acesso DNS, pois na VPC está setado o uso de DNS.
 
-Adicionei um egress com range de ips de acesso SSH definido na variável "ips_ssh".
+Adicionei um egress com range de IPs de acesso SSH definido na variável "ips_ssh".
 
 Adicionei um egress para permitir acesso HTTPS.
 
