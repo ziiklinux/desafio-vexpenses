@@ -65,8 +65,6 @@ Todas as portas estavam abertas para saída. A fim de corrigir esta vunerabilida
 
 Adicionei a variavél "ips_ssh" a fim de limitar o acesso SSH a IPs especificos.
 
-Tagei a variável "ips_ssh" nos recursos.
-
 Adicionei um ingress com range de IPs de acesso SSH definido na variável "ips_ssh".
 
 Adicionei um ingress para permitir acesso HTTPS # Presumi que o nginx será usado como um web server e não como load balancer.
