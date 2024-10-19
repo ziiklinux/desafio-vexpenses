@@ -83,7 +83,7 @@ Adicionei um egress para permitir acesso HTTP para o nginx.
 
 Adicionei um egress para permitir acesso DNS, pois na VPC está setado o uso de DNS. 
 
-Adicionei 3 comando ao script usado no user_date:
+Adicionei 3 comandos ao script usado no user_date:
 
 -apt-get install -y nginx # Instala o nginx.
 
