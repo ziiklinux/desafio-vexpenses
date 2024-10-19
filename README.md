@@ -63,7 +63,7 @@ Limitei o acesso SSH a IPs especificos, pois é um risco bindar a porta ssh com 
 
 Todas as portas estavam abertas para saída. A fim de corrigir esta vunerabilidade eu apenas permiti saída nas portas 443,80,22 e 53.
 
-Adicionei a variavél "ips_ssh" a fim de limitar o acesso ssh a IPs especificos.
+Adicionei a variavél "ips_ssh" a fim de limitar o acesso SSH a IPs especificos.
 
 Tagei a variável "ips_ssh" nos recursos.
 
