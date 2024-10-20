@@ -167,7 +167,7 @@ resource "aws_security_group" "main_sg" {
   }
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-sg"
+    Name = "${var.projeto}-${var.candidato}-sg"
   }
 }
 
@@ -206,9 +206,39 @@ resource "aws_instance" "debian_ec2" {
               #!/bin/bash
               apt-get update -y
               apt-get upgrade -y
-              apt-get install -y nginx # Instala o nginx
-              systemctl start nginx # Inicia o nginx 
-              systemctl enable nginx # Habilita o nginx a iniciar automaticamente
+              apt-get install -y nginx
+
+              cat <<EOF > /etc/nginx/sites-available/default
+              server {
+                  listen 80;
+                  listen [::]:80;
+
+                  listen 443 ssl;
+                  listen [::]:443 ssl;
+
+                  server_name _;
+
+                  location / {
+                      root /var/www/html;
+                      index index.html index.htm;
+                  }
+
+                  error_page 404 /404.html;
+                  location = /404.html {
+                      root /var/www/html;
+                  }
+
+                  error_page 500 502 503 504 /50x.html;
+                  location = /50x.html {
+                      root /var/www/html;
+                  }
+              }
+              EOF
+
+              ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+              nginx -t
+              systemctl restart nginx
+              systemctl enable nginx
               EOF
 
   tags = {
