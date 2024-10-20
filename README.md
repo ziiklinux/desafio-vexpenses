@@ -93,9 +93,9 @@ Adicionei 3 comandos ao script usado no user_date:
 
 Instale o Terraform na sua máquina, você pode baixá-lo por aqui https://www.terraform.io/downloads.html
 
-Na sua máquina linux, crie um diretório para o projeto, para isto utilize o comando mkdir <nome do projeto> no bash.
+Na sua máquina linux, crie um diretório para o projeto, para isto utilize o comando mkdir nome_do_projeto no bash.
 
-Entre no diretório utilizando o comando cd <nome do projeto>.
+Entre no diretório utilizando o comando cd nome_do_projeto.
 
 Baixe o arquivo main.tf do repositório.
 
