@@ -109,6 +109,10 @@ Execute o comando para inicializar o Terraform:
 
 terraform init
 
+Execute o comando parar validar a infraestrutura:
+
+terrform validate
+
 Execute o comando para planejar a infraestrutura:
 
 terraform plan
