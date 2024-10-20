@@ -101,7 +101,7 @@ Baixe o arquivo main.tf do repositório.
 
 Crie um arquivo chamado main.tf utilizando o comando sudo nano main.tf.
 
-Isso abria uma caixa de texto, copiei o texto do arquivo main.tf baixado do repositório e cole na caixa de texto que abriu.
+Isso abrirá uma caixa de texto, copiei o texto do arquivo main.tf baixado do repositório e cole na caixa de texto que abriu.
 
 Salve o arquivo com o comando crtl + o e depois crtl + x para sair.
 
