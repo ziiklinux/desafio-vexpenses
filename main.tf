@@ -26,27 +26,30 @@ resource "tls_private_key" "ec2_key" {
 }
 
 resource "aws_key_pair" "ec2_key_pair" {
-  key_name   = "${var.projeto}-${var.candidato}${var.ips_ssh}-key"
+  key_name   = "${var.projeto}-${var.candidato}-key"
   public_key = tls_private_key.ec2_key.public_key_openssh
 }
 
 resource "aws_vpc" "main_vpc" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+  cidr_block                       = "10.0.0.0/16"
+  enable_dns_support               = true
+  enable_dns_hostnames             = true
+  assign_generated_ipv6_cidr_block = true
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-vpc"
+    Name = "${var.projeto}-${var.candidato}-vpc"
   }
 }
 
 resource "aws_subnet" "main_subnet" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.1.0/24"
+  ipv6_cidr_block   = cidrsubnet(aws_vpc.main_vpc.ipv6_cidr_block, 8, 1)
   availability_zone = "us-east-1a"
+  
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-subnet"
+    Name = "${var.projeto}-${var.candidato}-subnet"
   }
 }
 
@@ -54,7 +57,7 @@ resource "aws_internet_gateway" "main_igw" {
   vpc_id = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-igw"
+    Name = "${var.projeto}-${var.candidato}-igw"
   }
 }
 
@@ -64,10 +67,15 @@ resource "aws_route_table" "main_route_table" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main_igw.id
+    }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.main_igw.id
   }
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-route_table"
+    Name = "${var.projeto}-${var.candidato}-route_table"
   }
 }
 
@@ -76,12 +84,12 @@ resource "aws_route_table_association" "main_association" {
   route_table_id = aws_route_table.main_route_table.id
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-route_table_association"
+    Name = "${var.projeto}-${var.candidato}-route_table_association"
   }
 }
 
 resource "aws_security_group" "main_sg" {
-  name        = "${var.projeto}-${var.candidato}${var.ips_ssh}-sg"
+  name        = "${var.projeto}-${var.candidato}-sg"
   description = "Permitir SSH de IPs específicos e tráfego de entrada e saída limitados"
   vpc_id      = aws_vpc.main_vpc.id
 
@@ -92,7 +100,6 @@ resource "aws_security_group" "main_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = var.ips_ssh
-    ipv6_cidr_blocks = var.ips_ssh
   }
 
   ingress {
@@ -130,7 +137,6 @@ resource "aws_security_group" "main_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = var.ips_ssh
-    ipv6_cidr_blocks = var.ips_ssh
    }
     
   egress {
@@ -186,7 +192,7 @@ resource "aws_instance" "debian_ec2" {
   instance_type   = "t2.micro"
   subnet_id       = aws_subnet.main_subnet.id
   key_name        = aws_key_pair.ec2_key_pair.key_name
-  security_groups = [aws_security_group.main_sg.name]
+  security_groups = [aws_security_group.main_sg.id]
 
   associate_public_ip_address = true
 
@@ -206,7 +212,7 @@ resource "aws_instance" "debian_ec2" {
               EOF
 
   tags = {
-    Name = "${var.projeto}-${var.candidato}${var.ips_ssh}-ec2"
+    Name = "${var.projeto}-${var.candidato}-ec2"
   }
 }
 
