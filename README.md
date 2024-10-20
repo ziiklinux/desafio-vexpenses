@@ -111,7 +111,7 @@ terraform init
 
 Execute o comando parar validar a infraestrutura:
 
-terrform validate
+terraform validate
 
 Execute o comando para planejar a infraestrutura:
 
