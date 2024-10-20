@@ -17,7 +17,7 @@ variable "candidato" {
 variable "ips_ssh" {
   description = "Lista de IPs permitidos para acesso SSH"
   type        = list(string)
-  default     = ["192.168.1.1/32", "10.0.0.1/32"]  
+  default     = ["192.168.1.1", "10.0.0.1", "172.16.0.0"]  
 }
 
 resource "tls_private_key" "ec2_key" {
