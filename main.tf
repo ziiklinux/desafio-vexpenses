@@ -69,9 +69,12 @@ resource "aws_route_table" "main_route_table" {
     gateway_id = aws_internet_gateway.main_igw.id
     }
 
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.main_igw.id
+  dynamic "route" {
+    for_each = ["::/0"]
+    content {
+      ipv6_cidr_block = route.value
+      gateway_id      = aws_internet_gateway.main_igw.id
+    }
   }
 
   tags = {
@@ -207,6 +210,8 @@ resource "aws_instance" "debian_ec2" {
               apt-get update -y
               apt-get upgrade -y
               apt-get install -y nginx
+
+              mkdir -p /etc/nginx/ssl
 
               openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=localhost
 
