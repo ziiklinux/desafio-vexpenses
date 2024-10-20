@@ -89,6 +89,61 @@ Adicionei 3 comandos ao script usado no user_date:
 
 -systemctl enable nginx # Habilita o nginx a iniciar automaticamente.
 
+# Como executar o arquivo main.tf
+
+Instale o Terraform na sua máquina, você pode baixá-lo por aqui https://www.terraform.io/downloads.html
+
+Na sua máquina linux, crie um diretório para o projeto, para isto utilize o comando mkdir <nome do projeto> no bash.
+
+Entre no diretório utilizando o comando cd <nome do projeto>.
+
+Baixe o arquivo main.tf do repositório.
+
+Crie um arquivo chamado main.tf utilizando o comando sudo nano main.tf.
+
+Isso abria uma caixa de texto, copiei o texto do arquivo main.tf baixado do repositório e cole na caixa de texto que abriu.
+
+Salve o arquivo com o comando crtl + o e depois crtl + x para sair.
+
+Execute o comando para inicializar o Terraform:
+
+# terraform init
+
+Execute o comando para planejar a infraestrutura:
+
+# terraform plan
+
+Execute o comando para aplicar a infraestrutura:
+
+# terraform apply
+
+Após a aplicação da infraestrutura verifique a chave privada com o comando:
+
+# terraform output private_key 
+
+Certifique-se de salvá-la em um local seguro!
+
+Após verifique o ip com o comando:
+
+# terraform output ec2_public_ip
+
+Aṕos acesse a instância EC2 via SSH com o comando:
+
+# ssh -i path/to/private_key.pem aws_user@<ec2_public_ip>
+
+Verifique o nginx acessando a seguinte url:
+
+# http://<ec2_public_ip>
+
+
+
+
+
+
+
+
+
+
 
 
 
