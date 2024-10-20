@@ -81,13 +81,58 @@ Adicionei um egress para permitir acesso HTTP para o nginx.
 
 Adicionei um egress para permitir acesso DNS, pois na VPC está setado o uso de DNS. 
 
-Adicionei 3 comandos ao script usado no user_date:
+Adicionei um recurso para instalar o certbot para gerar certificaso SSL.
 
--apt-get install -y nginx # Instala o nginx.
+Adicionei um script que instala o nginx e usa o certbot para gerar certificado SSL para o site www.vexpenses.com.br no user_date:
 
--systemctl start nginx # Inicia o nginx .
+user_data = <<-EOF
+              #!/bin/bash
+              apt-get update -y
+              apt-get upgrade -y
+              apt-get install -y nginx
 
--systemctl enable nginx # Habilita o nginx a iniciar automaticamente.
+              mkdir -p /etc/nginx/ssl
+
+              openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=vexpenses.com.br
+
+              cat <<EOF > /etc/nginx/sites-available/default
+              server {
+                  listen 80;
+                  listen [::]:80;
+
+                  listen 443 ssl;
+                  listen [::]:443 ssl;
+
+                  server_name _;
+
+                  location / {
+                      root /var/www/html;
+                      index index.html index.htm;
+                  }
+
+                  error_page 404 /404.html;
+                  location = /404.html {
+                      root /var/www/html;
+                  }
+
+                  error_page 500 502 503 504 /50x.html;
+                  location = /50x.html {
+                      root /var/www/html;
+                  }
+              }
+              EOF
+
+              ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+              nginx -t
+              systemctl restart nginx
+              
+              EOF
+
+              certbot --nginx -d vexpenses.com.br -d www.vexpenses.com.br
+              systemctl restart nginx
+              systemctl enable nginx
+              EOF
+
 
 # Como executar o arquivo main.tf
 
