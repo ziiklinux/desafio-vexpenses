@@ -208,6 +208,8 @@ resource "aws_instance" "debian_ec2" {
               apt-get upgrade -y
               apt-get install -y nginx
 
+              openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=localhost
+
               cat <<EOF > /etc/nginx/sites-available/default
               server {
                   listen 80;
