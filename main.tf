@@ -205,14 +205,6 @@ resource "aws_instance" "debian_ec2" {
     delete_on_termination = true
   }
 
-resource "null_resource" "install_certbot" {
-  provisioner "remote-exec" {
-    inline = [
-      "apt update && apt upgrade -y",
-      "apt install certbot python3-certbot-nginx -y"
-    ]
-  }
-
   user_data = <<-EOF
               #!/bin/bash
               apt-get update -y
@@ -221,7 +213,7 @@ resource "null_resource" "install_certbot" {
 
               mkdir -p /etc/nginx/ssl
 
-              openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=vexpenses.com.br
+              openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/CN=vexpenses.com.br"
 
               cat <<EOF > /etc/nginx/sites-available/default
               server {
@@ -254,11 +246,6 @@ resource "null_resource" "install_certbot" {
               nginx -t
               systemctl restart nginx
               
-              EOF
-
-              certbot --nginx -d vexpenses.com.br -d www.vexpenses.com.br
-              systemctl restart nginx
-              systemctl enable nginx
               EOF
 
   tags = {
