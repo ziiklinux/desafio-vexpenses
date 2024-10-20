@@ -107,33 +107,33 @@ Salve o arquivo com o comando crtl + o e depois crtl + x para sair.
 
 Execute o comando para inicializar o Terraform:
 
-# terraform init
+terraform init
 
 Execute o comando para planejar a infraestrutura:
 
-# terraform plan
+terraform plan
 
 Execute o comando para aplicar a infraestrutura:
 
-# terraform apply
+terraform apply
 
 Após a aplicação da infraestrutura verifique a chave privada com o comando:
 
-# terraform output private_key 
+terraform output private_key 
 
 Certifique-se de salvá-la em um local seguro!
 
 Após verifique o ip com o comando:
 
-# terraform output ec2_public_ip
+terraform output ec2_public_ip
 
 Aṕos acesse a instância EC2 via SSH com o comando:
 
-# ssh -i path/to/private_key.pem aws_user@<ec2_public_ip>
+ssh -i path/to/private_key.pem aws_user@<ec2_public_ip>
 
 Verifique o nginx acessando a seguinte url:
 
-# http://<ec2_public_ip>
+http://<ec2_public_ip>
 
 
 
